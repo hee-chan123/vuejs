@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <div id="app">
+    <mytag v-bind:data="mmm" v-on:eee="rrr"></mytag>
+   </div>
+   <script src="http://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+   <script>
+    let a= 0;
+
+       Vue.component('mytag',{
+        props: ['data'],
+        template: `<div><h2>{{data}}</h2>
+                    <button v-on:click="bbb">증가</button>
+                    <button v-on:click="ccc">감소</button></div>`,
+        methods: {
+            bbb: function(){
+                this.$emit('eee', ++a);
+            },
+            ccc: function(){
+                this.$emit('eee', --a);
+            }
+        }
+       });
+
+       new Vue({
+        el: '#app', 
+        data: {
+            mmm: a
+        },
+        methods: {
+            rrr: function(vv){
+                this.mmm = vv;
+                console.log(vv)
+            }
+        }
+       });
+   </script>
+</body>
+</html>
