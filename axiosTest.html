@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+</head>
+<body>
+<div id="app">
+   <p>{{advice}}</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+   new Vue({
+       data: {advice: 'ppp'},
+    created() {
+        axios.get('http://localhost:3000/todo')
+                    .then((res) => {
+                        console.log(res);
+                        this.advice = res.data;
+                    })
+                    .catch((err) => {console.log(err);})
+   }
+   }).$mount('#app');
+</script>
+</body>
+</html>

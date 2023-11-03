@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+</head>
+<body>
+<hr>
+<table>
+   <tr>
+       <td>id</td>
+       <td><input type="text" name="id"></td>
+   </tr>
+   <tr>
+       <td>title</td>
+       <td><input type="text" name="title"></td>
+   </tr>
+   <tr>
+       <td>userId</td>
+       <td><input type="text" name="userId"><br/></td>
+   </tr>
+   <tr>
+       <td>completed</td>
+       <td><input type="text" name="completed"></td>
+   </tr>
+</table>
+
+
+<button onclick="getComment()" type="button">GET</button>
+<button onclick="submit()" type="button">POST</button>
+<button onclick="putCommend()" type="button">PUT</button>
+<button onclick="deleteComment()" type="button">DELETE</button>
+<div class="print-data">
+   <ul></ul>
+</div>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+
+   function getComment() {
+       let dataCollection = []
+       axios.get('http://localhost:4000/todo')
+           .then(res => {
+               dataCollection = res.data
+               console.log('dataCollection: ', dataCollection);
+               dataCollection.forEach(data => {
+                   document.querySelector('.print-data').innerHTML
+                       += `<li>id: ${data.id} <br>title: ${data.title} <br> content: ${data.completed}</li>`
+               })
+           })
+           .catch((error) => console.log(error))
+   }
+   function submit() {
+       const inputId = document.querySelector('input[name=id]')
+       const inputUserId = document.querySelector('input[name=userId]')
+       const inputTitle = document.querySelector('input[name=title]')
+       const inputCompleted = document.querySelector('input[name=completed]')
+
+
+       const todoParams = {
+           id: inputId.value,
+           userId: inputUserId.value,
+           title: inputTitle.value,
+           completed: inputCompleted.value
+       }
+
+
+       axios.post(`http://localhost:4000/todo`, todoParams)
+           .then(res => {
+               console.log('res: ', res);
+           })
+           .catch(error => {
+               console.log('error: ', error);
+           })
+   }
+   function putCommend() {
+       const inputId = document.querySelector('input[name=id]')
+       const inputUserId = document.querySelector('input[name=userId]')
+       const inputTitle = document.querySelector('input[name=title]')
+       const inputCompleted = document.querySelector('input[name=completed]')
+
+
+       const todoParams = {
+           id: inputId.value,
+           userId: inputUserId.value,
+           title: inputTitle.value,
+           completed: inputCompleted.value
+       }
+
+
+       axios.put(`http://localhost:4000/todo/${inputId.value}`, todoParams)
+           .then(res => {
+               console.log('res: ', res);
+           })
+           .catch(error => {
+               console.log('error: ', error);
+           })
+   }
+
+
+   function deleteComment() {
+       const inputId = document.querySelector('input[name=id]')
+       const val = inputId.value
+       console.log(val)
+       axios({
+           method: 'delete',
+           url: `http://localhost:4000/todo/${val}`,
+       })
+           .then(res => console.log(res))
+           .catch(console.error)
+   }
+
+
+</script>
+</body>
+</html>
